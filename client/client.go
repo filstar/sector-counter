@@ -2,10 +2,12 @@ package client
 
 import (
 	"context"
+	"google.golang.org/grpc/keepalive"
 	"log"
 	"os"
+	"time"
 
-	pb "github.com/moran666666/sector-counter/proto"
+	pb "github.com/pocyc/sector-counter/proto"
 	"google.golang.org/grpc"
 )
 
@@ -27,7 +29,13 @@ func NewClient() *Client {
 }
 
 func (c *Client) connect() (pb.GrpcClient, *grpc.ClientConn, error) {
-	conn, err := grpc.Dial(c.DialAddr, grpc.WithInsecure()) //连接gRPC服务器
+	var kacp = keepalive.ClientParameters{
+		Time:                10 * time.Second, // send pings every 10 seconds if there is no activity
+		Timeout:             time.Second,      // wait 1 second for ping ack before considering the connection dead
+		PermitWithoutStream: true,             // send pings even without active streams
+	}
+
+	conn, err := grpc.Dial(c.DialAddr, grpc.WithInsecure(), grpc.WithKeepaliveParams(kacp)) //连接gRPC服务器
 	if err != nil {
 		return nil, nil, err
 	}
