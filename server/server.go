@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	pb "github.com/pocyc/sector-counter/proto"
+	pb "github.com/filstar/sector-counter/proto"
 
 	"google.golang.org/grpc"
 )
