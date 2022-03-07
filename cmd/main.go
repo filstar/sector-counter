@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	client "github.com/pocyc/sector-counter/client"
-	server "github.com/pocyc/sector-counter/server"
+	client "github.com/filstar/sector-counter/client"
+	server "github.com/filstar/sector-counter/server"
 )
 
 func main() {
